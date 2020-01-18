@@ -38,7 +38,7 @@ All data resides within /db directory in container.
 # Examples
 ## Overpass instance covering part of the world
 In this example Overpass instance will be initialized with planet file for Monaco downloaded from Geofabrik. Data will be stored in folder
-`/home/me/overpassdata/overpass_db` on the host machine. Overpass will be available on port 12345 on host machine. Data will not contain metadata
+`/big/docker/overpass_db/` on the host machine. Overpass will be available on port 12345 on host machine. Data will not contain metadata
 as this example uses public Geofabrik extracts, that do not contain metadata (such as changeset and user).
 ```
 docker run \
@@ -47,7 +47,7 @@ docker run \
   -e OVERPASS_PLANET_URL=http://download.geofabrik.de/europe/monaco-latest.osm.bz2 \
   -e OVERPASS_DIFF_URL=http://download.openstreetmap.fr/replication/europe/monaco/minute/ \
   -e OVERPASS_RULES_LOAD=10 \
-  -v /home/me/overpassdata/overpass_db/:/db \
+  -v /big/docker/overpass_db/:/db \
   -p 12345:80 \
   -i -t \
   --name overpass_monaco wiktorn/overpass-api
@@ -70,7 +70,7 @@ docker run \
 
 ## Overpass instance covering part of the world using cookie
 In this example Overpass instance will be initialized with planet file for Monaco downloaded from internal Geofabrik server. 
-Data will be stored in folder `/home/me/overpassdata/overpass_db/` on the host machine. Overpass will be available on port 12347 on host machine.
+Data will be stored in folder `/big/docker/overpass_db/` on the host machine. Overpass will be available on port 12347 on host machine.
 
 Prepare file with your credentials `/home/osm/oauth-settings.json`:
 ```json
@@ -97,7 +97,7 @@ docker run \
     -e OVERPASS_PLANET_PREPROCESS='mv /db/planet.osm.bz2 /db/planet.osm.pbf && osmium cat -o /db/planet.osm.bz2 /db/planet.osm.pbf && rm /db/planet.osm.pbf' \
     -e USE_OAUTH_COOKIE_CLIENT=yes \
     --mount type=bind,source=/home/osm/oauth-settings.json,target=/secrets/oauth-settings.json \
-    -v /home/me/overpassdata/overpass_db/:/db \
+    -v /big/docker/overpass_db/:/db \
     -p 12347:80 \
     -i -t \
     --name overpass_monaco wiktorn/overpass-api
